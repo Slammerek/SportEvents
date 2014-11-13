@@ -1,19 +1,19 @@
-﻿body {
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px; /*ne absolutní hodnoty*/
-line-height: 1.428571429;
-color: #333333;
-background-color: #ff7417;
-margin: 0;
-padding: 0;
-min-width: 800px;
+﻿body{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px; /*ne absolutní hodnoty*/
+    line-height: 1.428571429;
+    color: #333333;
+    background-color: #ff7417;
+    margin: 0;
+    padding: 0;
+    min-width: 800px;
 }
 
 /*header*/
 header{
-width: 100%;
-background-color: #222222;
-border-color: #080808;
+    width: 100%;
+    background-color: #222222;
+    border-color: #080808;
 }
 
 #header-container{
@@ -24,10 +24,10 @@ border-color: #080808;
 
 .header-brand a{
     float:left;
-padding: 25px 15px;
-font-size: 18px;
-line-height: 20px;
-color: white;
+    padding: 25px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    color: white;
 }
 
 nav{
@@ -38,13 +38,13 @@ nav{
 }
 
 nav a{
-color: #999999;
+    color: #999999;
 }
 
 #navbar-nav{
     float: left;    
 }
-#navbar-login {
+#navbar-login{
     float: right;   
 }
 

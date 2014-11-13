@@ -40,7 +40,7 @@ input{
     font-size: 15px;
     color: #888;
     text-shadow: 1px 1px 1px #FFF;
-   border:1px solid #ff7417;
+    border:1px solid #ff7417;
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2x;
@@ -61,7 +61,7 @@ input{
 }
 
 .button:hover{
-   background: #67bfbc;
+    background: #67bfbc;
 }
 
 /*písma*/
