@@ -16,7 +16,7 @@ namespace SportEvents.Controllers
         {
             Session["LoginSession"] = null; // vynulování session
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Users");
         }
 	}
 }

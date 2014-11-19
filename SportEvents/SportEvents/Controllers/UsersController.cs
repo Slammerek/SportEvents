@@ -11,10 +11,8 @@ namespace SportEvents.Controllers
     public class UsersController : Controller
     {
         private DataContext db = new DataContext();
-        private bool emailFound = false;
 
-        // GET: Users
-        
+        // GET: Users 
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -49,29 +47,24 @@ namespace SportEvents.Controllers
         public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
-            {
-                
+            { 
                 user.RegistrationTime = DateTime.Now; // Vytvoření data registrace
-                user.Password = UtilityMethods.CalculateHashMd5(user.Password); // Zahashování hesla
-                user.PasswordComparison = UtilityMethods.CalculateHashMd5(user.PasswordComparison);
+                user.HashPasswords(); // Zahashování hesel
 
-                emailFound = db.Users.Any(x => x.Email == user.Email); //Vyhodnotí, zda je zadaný e-mail v databázi
-                if (emailFound) // Pokud databáze zadaný e-mail obsahuje, vrátí nás na formulář pro registraci
+                if (db.IsEmailInDatabase(user.Email)) // Pokud databáze zadaný e-mail obsahuje, vrátí nás na formulář pro registraci
                 {
                     ViewBag.Error = "Uživatel pod tímto emailem je již registrován";
                     return View();
                 }
                 else
                 {
-                    db.Users.Add(user); // uložení uživatele a uložení změn v tabulce
+                    db.Users.Add(user); // uložení uživatele a uložení změn
                     db.SaveChanges();
-
                     return RedirectToAction("Index");
                 }
-
             }
 
-            return View(user);
+            return View();
    
         }
 

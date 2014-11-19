@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SportEvents.Models.User>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,16 +12,17 @@
     <title>Index</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Register", "Create")
-        @Html.ActionLink("Login", "Login")
-        @Html.ActionLink("Logout", "Logout")
-    </p>
-
    
-    @if (Session["LoginSession"]==null)
+    @if (Session["LoginSession"] != null)
     {
-        <table class="table">
+        <h2>User @Session["LoginSession"] is logged in</h2>
+    }
+    else
+    {
+        <h2>Nobody is logged in</h2>
+    }
+    
+     <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -74,11 +75,6 @@
     
     </table>
         
-    }
-    else
-    {
-        <h3>User @Session["LoginSession"] is logged in</h3>
-    }
 
     
 </body>

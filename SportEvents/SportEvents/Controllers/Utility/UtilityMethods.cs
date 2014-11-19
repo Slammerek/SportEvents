@@ -21,8 +21,19 @@ namespace SportEvents.Controllers.Utility
             {
                 sb.Append(hashed[i].ToString("X2"));
             }
+
             return sb.ToString();
 
+        }
+
+        public static bool ComparePasswords(string loginPassword, string dbPassword)
+        {
+            if(loginPassword.Equals(dbPassword))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
