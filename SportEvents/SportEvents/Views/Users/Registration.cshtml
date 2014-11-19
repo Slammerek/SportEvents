@@ -14,15 +14,15 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </head>
-<body>    
+<body>
     <h2>Registrační formulář</h2>
     <hr />
-    @using (Html.BeginForm()) 
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        
+
         <div class="form-horizontal">
-            
+
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @ViewBag.Error
             <div class="form-group">
@@ -32,7 +32,7 @@
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "label" })
                 <div class="col-md-10">
@@ -48,7 +48,7 @@
                     @Html.ValidationMessageFor(model => model.PasswordComparison, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
                 @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "label" })
                 <div class="col-md-10">
@@ -56,7 +56,7 @@
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "label" })
                 <div class="col-md-10">
@@ -64,7 +64,7 @@
                     @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "label" })
                 <div class="col-md-10">
@@ -72,9 +72,9 @@
                     @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
-            
-    
+
+
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Vytvořit" class="button" />
@@ -82,9 +82,9 @@
             </div>
         </div>
     }
-    
+
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "ListOfUsers")
     </div>
 </body>
 </html>

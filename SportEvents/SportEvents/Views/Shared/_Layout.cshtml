@@ -22,9 +22,19 @@
                             <li>@Html.ActionLink("Domů", "Index", "Home")</li>                            
                         </ul>
                         <ul id="navbar-login">
-                            <li>@Html.ActionLink("Přihlásit", "Login", "Login")</li>
-                            <li>@Html.ActionLink("Registrace", "Create", "Users")</li>
-                            <li>@Html.ActionLink("Odhlásit", "Logout", "Logout")</li>
+                            @if (Session["LoginSession"] != null)
+                            {
+                                String loginS = (String) Session["LoginSession"];
+                                <li>@Html.ActionLink(loginS, "ListOfUsers", "Users")</li>
+                                <li>@Html.ActionLink("Odhlásit", "Logout", "Home")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Přihlásit", "Index", "Home")</li>
+                                <li>@Html.ActionLink("Registrace", "Registration", "Users")</li>
+                            }
+                            
+                            
                         </ul>
                     </nav>  
                                       

@@ -18,6 +18,7 @@ namespace SportEvents.Models
 
         public bool IsEmailInDatabase(string email)
         {
+            
             if (Users.Any(x => x.Email == email))
             {
                 return true;
@@ -27,6 +28,7 @@ namespace SportEvents.Models
 
         public string GetHashedPassword(string email)
         {
+            
             return Users.Where(x => x.Email == email).Select(x => x.Password).Single();
         }
 
@@ -37,6 +39,11 @@ namespace SportEvents.Models
                 return true;
             }
             return false;
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return new User();
         }
         
     }

@@ -21,10 +21,5 @@ namespace SportEvents.Models
         [RegularExpression("^[a-zA-Z0-9]{8,}$", ErrorMessage = "Povolené znaky jsou a-z, A-Z a 0-9 s minimální délkou 8 znaků.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        public void HashPassword()
-        {
-            Password = UtilityMethods.CalculateHashMd5(Password);
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model SportEvents.Models.User
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -68,7 +68,7 @@
     </div>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "ListOfUsers")
     </p>
 </body>
 </html>

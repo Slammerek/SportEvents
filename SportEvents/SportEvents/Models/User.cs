@@ -45,11 +45,5 @@ namespace SportEvents.Models
         public string Telephone { get; set; }
         
         public DateTime RegistrationTime { get; set; }
-
-        public void HashPasswords()
-        {
-            Password = UtilityMethods.CalculateHashMd5(Password);
-            PasswordComparison = UtilityMethods.CalculateHashMd5(PasswordComparison);
-        }
     }
 }
