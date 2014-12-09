@@ -43,7 +43,17 @@ namespace SportEvents.Models
         [DisplayName("Telefon")]
         [RegularExpression ("^[+]?[()/0-9. -]{9,}$", ErrorMessage = "Neplatné telefonní číslo.")] 
         public string Telephone { get; set; }
-        
+
+        [DisplayName("Datum a čas registrace")]
         public DateTime RegistrationTime { get; set; }
+
+        [DisplayName("Skupiny")]
+        public virtual ICollection<Group> Groups { get; set; }
+
+        public User()
+        {
+            Groups = new HashSet<Group>();
+
+        }
     }
 }

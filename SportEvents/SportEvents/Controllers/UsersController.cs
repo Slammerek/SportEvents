@@ -44,6 +44,7 @@ namespace SportEvents.Controllers
                 user.PasswordComparison = UtilityMethods.CalculateHashMd5(user.PasswordComparison);
                 db.Users.Add(user); // uložení uživatele a uložení změn
                 db.SaveChanges();
+                TempData["notice"] = "Uživatel " + user.Email + " byl přidán do systému";
                 return RedirectToAction("ListOfUsers");
                 
             }

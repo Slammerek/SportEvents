@@ -28,9 +28,10 @@ namespace SportEvents.Controllers
             {
                 if (db.IsUserRegistered(login.Email, UtilityMethods.CalculateHashMd5(login.Password))) // Zahashuje heslo a zjistí zda je uživatel registrován
                 {
-                    Session["LoginSession"] = login.Email; // Vytvoření Session prozatím jen s Emailem uživatele
-                    TempData["notice"] = "Vítejte";
-                    return RedirectToAction("ListOfUsers", "Users");
+                    User user = db.GetUserByEmail(login.Email);
+                    Session["UserSession"] = user;
+                    TempData["notice"] = "Uživatel " + login.Email + " byl úspěšně přihlášen";
+                    return RedirectToAction("index", "Groups");
                 }
                 else
                 {
@@ -45,7 +46,7 @@ namespace SportEvents.Controllers
 
         public ActionResult Logout()
         {
-            Session["LoginSession"] = null; // vynulování session
+            Session["UserSession"] = null; // vynulování session
 
             return RedirectToAction("Index", "Home");
         }

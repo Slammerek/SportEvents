@@ -1,48 +1,48 @@
 ﻿
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" />
-    <link href="~/Content/Boot.css" rel="stylesheet" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <script src="~/Scripts/jquery-effects.js"></script>
-</head>
-<body>
-    <header>
-        <div id="header-container">
-            <div class="header-brand">
-                @Html.ActionLink("Sport Events", "Index", "Home", null, new { @class = "navbar-brand" })
+    <!DOCTYPE HTML>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" />
+        <link href="~/Content/Boot.css" rel="stylesheet" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/jquery-effects.js"></script>
+    </head>
+    <body>
+        <header>
+            <div id="header-container">
+                <div class="header-brand">
+                    @Html.ActionLink("Sport Events", "Index", "Home", null, new { @class = "navbar-brand" })
+                </div>
+                <nav>
+                    <ul id="navbar-nav">
+                        <li>@Html.ActionLink("Domů", "Index", "Home")</li>
+                    </ul>
+                    <ul id="navbar-login">
+                        @if (Session["UserSession"] != null)
+                        {
+                            SportEvents.Models.User user = (SportEvents.Models.User)Session["UserSession"];
+                            <li>@Html.ActionLink(user.Email, "ListOfUsers", "Users")</li>
+                            <li>@Html.ActionLink("Odhlásit", "Logout", "Home")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Přihlásit", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Registrace", "Registration", "Users")</li>
+                        }
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul id="navbar-nav">
-                    <li>@Html.ActionLink("Domů", "Index", "Home")</li>
-                </ul>
-                <ul id="navbar-login">
-                    @if (Session["LoginSession"] != null)
-                    {
-                        String loginS = (String)Session["LoginSession"];
-                        <li>@Html.ActionLink(loginS, "ListOfUsers", "Users")</li>
-                        <li>@Html.ActionLink("Odhlásit", "Logout", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Přihlásit", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Registrace", "Registration", "Users")</li>
-                    }                    
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <main>
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Sport Events</p>
-        </footer>
-    </main>
-</body>
+        </header>
+        <main>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Sport Events</p>
+            </footer>
+        </main>
+    </body>
 </html>

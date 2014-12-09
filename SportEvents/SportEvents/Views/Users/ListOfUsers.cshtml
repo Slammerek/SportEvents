@@ -1,10 +1,11 @@
-﻿@model IEnumerable<SportEvents.Models.User>
+﻿<!DOCTYPE html>
+
+@model IEnumerable<SportEvents.Models.User>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
-
-<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,16 +13,16 @@
     <title>List of users</title>
 </head>
 <body>   
-   
-   @if (TempData["notice"] != null)
-    {
-    <h3 style="text-align:center">@TempData["notice"] @Session["LoginSession"]</h3>
-    }
+    <div>
+        <h2>@Html.ActionLink("Groups", "Index", "Groups")</h2>
+    </div>
+
+    <h3 style="text-align:center"> @TempData["notice"]</h3>
     
     <h2>Výpis registrovaných uživatelů</h2>
     <hr />
-    
-     <table class="table">
+
+    <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -43,38 +44,39 @@
             </th>
             <th></th>
         </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationTime)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-        
 
-    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telephone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+
 </body>
 </html>

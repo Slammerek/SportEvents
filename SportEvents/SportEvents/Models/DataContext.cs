@@ -10,11 +10,28 @@ namespace SportEvents.Models
     public class DataContext : DbContext
     {
         public DataContext()
-            : base("SportEventsDB")
+            : base("RoprDedeskDB")
         {
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
+
+       
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(a => a.Groups)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("User_Id");
+                    x.MapRightKey("Group_Id");
+                    x.ToTable("GroupUsers");
+                });
+        }
+
 
         public bool IsEmailInDatabase(string email)
         {
@@ -43,8 +60,8 @@ namespace SportEvents.Models
 
         public User GetUserByEmail(string email)
         {
-            return new User();
+            User user = (User) Users.Where(x => x.Email == email).Single();
+            return user;
         }
-        
     }
 }
