@@ -9,8 +9,7 @@ using System.Web;
 namespace SportEvents.Models
 {
     public enum TypeOfPayment
-    {
-       
+    {       
         Cash,
        AfterPeriod
     }

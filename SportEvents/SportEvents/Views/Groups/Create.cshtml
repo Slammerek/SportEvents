@@ -35,10 +35,10 @@
             @Html.LabelFor(model => model.Payment, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EnumDropDownListFor(model => model.Payment) 
+                @Html.DropDownListFor(model => model.Payment, new SelectList(Model.Payment, "Text"))
+                @Html.ValidationMessageFor(model => model.Operace)
             </div>
-        </div>
-
-        
+        </div>       
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
