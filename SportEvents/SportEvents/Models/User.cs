@@ -11,7 +11,7 @@ namespace SportEvents.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [DisplayName("E-mail(login)")]
         [Required(ErrorMessage = "Vyplňte prosím email sloužící jako login.")]
@@ -49,6 +49,7 @@ namespace SportEvents.Models
 
         [DisplayName("Skupiny")]
         public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Event> Events { get; set; } 
 
         public User()
         {

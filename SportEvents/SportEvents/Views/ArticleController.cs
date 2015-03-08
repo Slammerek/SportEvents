@@ -51,7 +51,7 @@ namespace SportEvents.Views
             if (ModelState.IsValid)
             {
                 User user = (User)Session["UserSession"];
-                article.UserID = user.Id;
+                article.UserID = user.UserId;
                 db.Articles.Add(article);
                 db.SaveChanges();
                 return RedirectToAction("Index");

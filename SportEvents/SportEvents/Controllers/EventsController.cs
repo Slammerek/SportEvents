@@ -58,7 +58,7 @@ namespace SportEvents.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            ViewBag.GrpId = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
             return View();
         }
 
@@ -67,13 +67,13 @@ namespace SportEvents.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,TimeOfEvent,RepeatUntil,GrpId,Place,Description,Price,Repeat,Interval,CreatorId")] Event @event)
+        public ActionResult Create([Bind(Include = "Id,Name,TimeOfEvent,RepeatUntil,GroupId,Place,Description,Price,Repeat,Interval,CreatorId")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 User user = (User)Session["UserSession"];
-                @event.CreatorId = user.Id;
-                if (db.IsUserCreatorOfGroup(user.Id, @event.GrpId))
+                @event.CreatorId = user.UserId;
+                if (db.IsUserCreatorOfGroup(user.UserId, @event.GroupId))
                 {
                     if (@event.Repeat != 0) 
                     {
@@ -96,16 +96,15 @@ namespace SportEvents.Controllers
                 }
                 else
                 {
-                    TempData["notice"] = "Uživatel " + user.Email + " není zakladatelem skupiny s ID:" + @event.GrpId;
+                    TempData["notice"] = "Uživatel " + user.Email + " není zakladatelem skupiny s ID:" + @event.GroupId;
                     return RedirectToAction("Index");
                     
                 }
                 
                 
             }
-            
 
-            ViewBag.GrpId = new SelectList(db.Groups, "Id", "Name", @event.GrpId);
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
             ViewBag.Error = "Nejste zakladatelem tehle skupiny";
             return View(@event);
         }
@@ -122,7 +121,8 @@ namespace SportEvents.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GrpId = new SelectList(db.Groups, "Id", "Name", @event.GrpId);
+
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
             return View(@event);
         }
 
@@ -139,7 +139,7 @@ namespace SportEvents.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GrpId = new SelectList(db.Groups, "Id", "Name", @event.GrpId);
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
             return View(@event);
         }
 

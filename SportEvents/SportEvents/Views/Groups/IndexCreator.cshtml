@@ -64,7 +64,7 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Creator) 
+            @Html.DisplayFor(modelItem => item.CreatorId) 
         </td>        
         <td>
             @Html.DisplayFor(modelItem => item.NumberOfUsersInGroup)
@@ -77,9 +77,9 @@
         </td>
         <td>
             @*@Html.ActionLink("Přidat se do skupiny", "AddUserToGroup", new { id = item.Id }) |*@
-            @Html.ActionLink("editovat", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("detail", "Details", new { id=item.Id }) |
-            @Html.ActionLink("smazat", "Delete", new { id=item.Id })
+            @Html.ActionLink("editovat", "Edit", new { id=item.GroupId }) |
+            @Html.ActionLink("detail", "Details", new { id=item.GroupId }) |
+            @Html.ActionLink("smazat", "Delete", new { id=item.GroupId })
 
         </td>
     </tr>

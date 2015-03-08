@@ -81,12 +81,12 @@
             @Html.DisplayFor(modelItem => item.Interval)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GrpId)
+            @Html.DisplayFor(modelItem => item.GroupId)
         </td>
         <td>
-            @Html.ActionLink("editovat", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("detail", "Details", new { id=item.Id }) |
-            @Html.ActionLink("smazat", "Delete", new { id=item.Id })
+            @Html.ActionLink("editovat", "Edit", new { id=item.EventId }) |
+            @Html.ActionLink("detail", "Details", new { id=item.EventId }) |
+            @Html.ActionLink("smazat", "Delete", new { id=item.EventId })
         </td>
     </tr>
 }

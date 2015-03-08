@@ -35,11 +35,11 @@
         </dt>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Creator)
+            @Html.DisplayNameFor(model => model.CreatorId)
         </dt>
 
         <dt>
-            @Html.DisplayFor(model => model.Creator)
+            @Html.DisplayFor(model => model.CreatorId)
         </dt>
                
         
@@ -70,6 +70,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

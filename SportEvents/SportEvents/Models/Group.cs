@@ -11,12 +11,11 @@ namespace SportEvents.Models
     
     public class Group
     {
-        public Group()
-        {
-            EventList = new List<Event>();
-        }
-        public int Id { get; set; }
-        public int Creator { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int GroupId { get; set; }
+
+        public int CreatorId { get; set; }
 
         [DisplayName("Zadej název skupiny")]
         [Required(ErrorMessage = "Vyplňte prosím název skupiny")]
@@ -34,21 +33,8 @@ namespace SportEvents.Models
         public DateTime EndOfPaymentPeriod { get; set; }
                 
         [DisplayName("Zadej typ platby pro následující účtovací období")]
-      //  public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Event> Events { get; set; }
         public int NumberOfUsersInGroup { get; set; }
-        
-        //public Group()
-        //{
-        //    Users = new HashSet<User>();
-        //    Events = new HashSet<Event>();
-        //}
-
-
-
-
-
-
-        public List<Event> EventList { get; set; }
     }
 }

@@ -25,13 +25,13 @@ namespace SportEvents.Models
         public ActionResult IndexCreator()
         {
             User user = (User)Session["UserSession"];
-            return View(groupsBO.IndexCreator(user.Id));
+            return View(groupsBO.IndexCreator(user.UserId));
         }
 
         public ActionResult IndexMember()
         {
             User user = (User)Session["UserSession"];
-            return View(groupsBO.IndexMember(user.Id));
+            return View(groupsBO.IndexMember(user.UserId));
         }
 
         // GET: /Groups/Details/5
@@ -105,11 +105,12 @@ namespace SportEvents.Models
                     Group group = groupsBO.GetGroupById(id);
                     
                     groupsBO.AddUserToGroup(group, user);
-                    
+
                     
                     return RedirectToAction("Index");  
                 }
             }
+
 
             return View();
         }

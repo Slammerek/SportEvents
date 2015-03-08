@@ -1,59 +1,48 @@
-﻿using SportEvents.Controllers.Utility;
-using System;
+﻿using System.Security.Cryptography.X509Certificates;
+using SportEvents.Controllers.Utility;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace SportEvents.Models
 {
     public class DataContext : DbContext
     {
-
         public DataContext()
             : base("SportEventsFork")
         {
         }
 
         public DbSet<User> Users { get; set; }
+
         public DbSet<Group> Groups { get; set; }
-        public DbSet<UsersInGroup> UsersInGroups { get; set; }
+
         public DbSet<Event> Events { get; set; }
+
         public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>()
-            //    .HasMany(a => a.Groups)
-            //    .WithMany()
-            //    .Map(x =>
-            //    {
-            //        x.MapLeftKey("User_Id");
-            //        x.MapRightKey("Group_Id");
-            //        x.ToTable("GroupsUsers");
-            //    });
+            // M:N mezi Group <-> User
+            modelBuilder.Entity<Group>()
+                .HasMany(a => a.Users)
+                .WithMany(c => c.Groups)
+                .Map(x => x.MapLeftKey("GroupId").MapRightKey("UserId").ToTable("UsersInGroups"));
 
             modelBuilder.Entity<Event>()
                 .HasRequired<Group>(a => a.Group)
                 .WithMany(a => a.Events)
-                .HasForeignKey(a => a.GrpId);
-                
+                .HasForeignKey(a => a.GroupId);
 
+            // M:N mezi Event <-> User
             modelBuilder.Entity<Event>()
                 .HasMany(a => a.Users)
-                .WithMany()
-                .Map(x =>
-                {
-                    x.MapLeftKey("Event_Id");
-                    x.MapRightKey("User_Id");
-                    x.ToTable("EventsUsers");
-                });
+                .WithMany(c => c.Events)
+                .Map(x => x.MapLeftKey("EventId").MapRightKey("UserId").ToTable("EventsUsers"));
         }
 
-        
         public bool IsEmailInDatabase(string email)
         {
-            
             if (Users.Any(x => x.Email == email))
             {
                 return true;
@@ -61,46 +50,34 @@ namespace SportEvents.Models
             return false;
         }
 
-        public List<Event> AllEventsWhereIsUserCreator(int User_Id)
+        public List<Event> AllEventsWhereIsUserCreator(int userId)
         {
-            
             List<Event> listOfEvents = new List<Event>();
-            listOfEvents = Events.Where(x => x.CreatorId == User_Id).ToList();
-            
+            listOfEvents = Events.Where(x => x.CreatorId == userId).ToList();
+
             return listOfEvents;
         }
 
-        public List<Group> AllGroupsWhereIsUserCreator(int User_Id)
+        public List<Group> AllGroupsWhereIsUserCreator(int userId)
         {
-
             List<Group> listOfGroups = new List<Group>();
-            listOfGroups = Groups.Where(x => x.Creator == User_Id).ToList();
+            listOfGroups = Groups.Where(x => x.CreatorId == userId).ToList();
 
             return listOfGroups;
         }
 
         public List<Group> AllGroupsWhereIsUserMember(int userId)
         {
+            var listOfGroups = new List<Group>();
 
-            List<UsersInGroup> listOfGroups = new List<UsersInGroup>();
-            var list = new List<Group>();
+            listOfGroups = Users.Find(userId).Groups.ToList();
 
-
-            listOfGroups = UsersInGroups.Where(x => x.UserID == userId).ToList();
-
-            foreach (UsersInGroup usersInGroup in listOfGroups)
-            {
-                Group g = Groups.Find(usersInGroup.GroupID);
-
-                list.Add(g);
-            }
-
-            return list;
+            return listOfGroups;
         }
 
-        public bool IsUserCreatorOfGroup(int user_Id, int grp_Id)
+        public bool IsUserCreatorOfGroup(int userId, int groupId)
         {
-            if (Groups.Any(x => x.Creator == user_Id && x.Id == grp_Id))
+            if (Groups.Any(x => x.CreatorId == userId && x.GroupId == groupId))
             {
                 return true;
             }
@@ -109,7 +86,6 @@ namespace SportEvents.Models
 
         public string GetHashedPassword(string email)
         {
-            
             return Users.Where(x => x.Email == email).Select(x => x.Password).Single();
         }
 
@@ -124,20 +100,18 @@ namespace SportEvents.Models
 
         public User GetUserByEmail(string email)
         {
-            User user = (User) Users.Where(x => x.Email == email).Single();
+            User user = (User)Users.Where(x => x.Email == email).Single();
             return user;
         }
 
         public bool IsUserInGroup(int userId, int groupId)
         {
-
-            if (UsersInGroups.Any(x => x.UserID == userId && x.GroupID == groupId))
+            if (Groups.Find(groupId).Users.Any(x => x.UserId == userId))
             {
                 return true;
             }
+
             return false;
         }
-
-        
     }
 }

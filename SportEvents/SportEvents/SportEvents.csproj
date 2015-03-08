@@ -45,6 +45,8 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -90,6 +92,23 @@
     <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\Vis\Vis.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Vis.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Vis\Vis.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Vis.edmx</DependentUpon>
+      <LastGenOutput>Vis.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Vis\Vis.edmx.diagram">
+      <DependentUpon>Vis.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Vis\Vis.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Vis.edmx</DependentUpon>
+      <LastGenOutput>Vis.cs</LastGenOutput>
+    </Content>
     <None Include="Properties\PublishProfiles\sportevents.pubxml" />
     <None Include="Properties\PublishProfiles\VojtaPub.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -127,7 +146,39 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Article.cs" />
-    <Compile Include="Models\UsersInGroup.cs" />
+    <Compile Include="Models\Vis\Article.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\C__MigrationHistory.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\Event.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\Group.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\User.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\UsersInGroups1.cs">
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\Vis.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vis.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\Vis.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vis.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vis\Vis.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vis.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\ArticleController.cs" />
   </ItemGroup>
@@ -170,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
