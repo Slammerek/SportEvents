@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Globalization;
+using System.Security.AccessControl;
+using System.Security.Cryptography.X509Certificates;
 using SportEvents.Controllers.Utility;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,6 +23,7 @@ namespace SportEvents.Models
         public DbSet<Event> Events { get; set; }
 
         public DbSet<Article> Articles { get; set; }
+        public DbSet<UsersInEvent> UsersInEvents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -34,13 +38,22 @@ namespace SportEvents.Models
                 .WithMany(a => a.Events)
                 .HasForeignKey(a => a.GroupId);
 
-            // M:N mezi Event <-> User
-            modelBuilder.Entity<Event>()
-                .HasMany(a => a.Users)
-                .WithMany(c => c.Events)
-                .Map(x => x.MapLeftKey("EventId").MapRightKey("UserId").ToTable("EventsUsers"));
+//            // M:N mezi Event <-> User
+//            modelBuilder.Entity<Event>()
+//                .HasMany(a => a.Users)
+//                .WithMany(c => c.Events)
+//                .Map(x => x.MapLeftKey("EventId").MapRightKey("UserId").ToTable("EventsUsers"));
         }
 
+
+        public List<User> AllUsersInGroup(int groupId)
+        {
+            var list = new List<User>();
+
+            list = Groups.Find(groupId).Users.ToList();
+            
+            return list;
+        } 
         public bool IsEmailInDatabase(string email)
         {
             if (Users.Any(x => x.Email == email))

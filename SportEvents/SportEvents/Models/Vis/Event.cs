@@ -16,6 +16,7 @@ namespace SportEvents.Models.Vis
     {
         public Event()
         {
+            this.UsersInEvents = new HashSet<UsersInEvent>();
             this.Users = new HashSet<User>();
         }
     
@@ -32,6 +33,7 @@ namespace SportEvents.Models.Vis
         public int Interval { get; set; }
     
         public virtual Group Group { get; set; }
+        public virtual ICollection<UsersInEvent> UsersInEvents { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

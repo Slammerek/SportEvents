@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db0dbb5eec172a48a397eaa45500e23c07Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Body" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeOfEvent" Type="datetime" Nullable="false" />
+          <Property Name="RepeatUntil" Type="datetime" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="CreatorId" Type="int" Nullable="false" />
+          <Property Name="Place" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Repeat" Type="int" Nullable="false" />
+          <Property Name="Interval" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatorId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="StartOfPaymentPeriod" Type="datetime" Nullable="false" />
+          <Property Name="EndOfPaymentPeriod" Type="datetime" Nullable="false" />
+          <Property Name="NumberOfUsersInGroup" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserEvents">
+          <Key>
+            <PropertyRef Name="Event_EventId" />
+            <PropertyRef Name="User_UserId" />
+          </Key>
+          <Property Name="Event_EventId" Type="int" Nullable="false" />
+          <Property Name="User_UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Telephone" Type="nvarchar(max)" />
+          <Property Name="RegistrationTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInEvents">
+          <Key>
+            <PropertyRef Name="UsersInEventId" />
+          </Key>
+          <Property Name="UsersInEventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInGroups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Events_dbo_Groups_GrpId">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_EventsUsers_dbo_Events_EventId">
+          <End Role="Events" Type="Self.Events" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserEvents" Type="Self.UserEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="UserEvents">
+              <PropertyRef Name="Event_EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_EventsUsers_dbo_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserEvents" Type="Self.UserEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserEvents">
+              <PropertyRef Name="User_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInEvents_dbo_Events_EventId">
+          <End Role="Events" Type="Self.Events" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInEvents" Type="Self.UsersInEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="UsersInEvents">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInEvents_dbo_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInEvents" Type="Self.UsersInEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInEvents">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInGroups_dbo_Groups_GroupId">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInGroups" Type="Self.UsersInGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="UsersInGroups">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInGroups_dbo_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInGroups" Type="Self.UsersInGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInGroups">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db0dbb5eec172a48a397eaa45500e23c07ModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Articles" EntityType="Self.Articles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserEvents" EntityType="Self.UserEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersInEvents" EntityType="Self.UsersInEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersInGroups" EntityType="Self.UsersInGroups" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Events_dbo_Groups_GrpId" Association="Self.FK_dbo_Events_dbo_Groups_GrpId">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_EventsUsers_dbo_Events_EventId" Association="Self.FK_dbo_EventsUsers_dbo_Events_EventId">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="UserEvents" EntitySet="UserEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_EventsUsers_dbo_Users_UserId" Association="Self.FK_dbo_EventsUsers_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserEvents" EntitySet="UserEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInEvents_dbo_Events_EventId" Association="Self.FK_dbo_UsersInEvents_dbo_Events_EventId">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="UsersInEvents" EntitySet="UsersInEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInEvents_dbo_Users_UserId" Association="Self.FK_dbo_UsersInEvents_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInEvents" EntitySet="UsersInEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInGroups_dbo_Groups_GroupId" Association="Self.FK_dbo_UsersInGroups_dbo_Groups_GroupId">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="UsersInGroups" EntitySet="UsersInGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInGroups_dbo_Users_UserId" Association="Self.FK_dbo_UsersInGroups_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInGroups" EntitySet="UsersInGroups" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db0dbb5eec172a48a397eaa45500e23c07Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeOfEvent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RepeatUntil" Type="DateTime" Precision="3" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="CreatorId" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Repeat" Type="Int32" Nullable="false" />
+          <Property Name="Interval" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_dbo_Events_dbo_Groups_GrpId" FromRole="Events" ToRole="Groups" />
+          <NavigationProperty Name="UsersInEvents" Relationship="Self.FK_dbo_UsersInEvents_dbo_Events_EventId" FromRole="Events" ToRole="UsersInEvents" />
+          <NavigationProperty Name="Users" Relationship="Self.UserEvents" FromRole="Events" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatorId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartOfPaymentPeriod" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndOfPaymentPeriod" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NumberOfUsersInGroup" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_dbo_Events_dbo_Groups_GrpId" FromRole="Groups" ToRole="Events" />
+          <NavigationProperty Name="Users" Relationship="Self.UsersInGroups" FromRole="Groups" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UsersInEvents" Relationship="Self.FK_dbo_UsersInEvents_dbo_Users_UserId" FromRole="Users" ToRole="UsersInEvents" />
+          <NavigationProperty Name="Events" Relationship="Self.UserEvents" FromRole="Users" ToRole="Events" />
+          <NavigationProperty Name="Groups" Relationship="Self.UsersInGroups" FromRole="Users" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="UsersInEvent">
+          <Key>
+            <PropertyRef Name="UsersInEventId" />
+          </Key>
+          <Property Name="UsersInEventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_dbo_UsersInEvents_dbo_Events_EventId" FromRole="UsersInEvents" ToRole="Events" />
+          <NavigationProperty Name="User" Relationship="Self.FK_dbo_UsersInEvents_dbo_Users_UserId" FromRole="UsersInEvents" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_dbo_Events_dbo_Groups_GrpId">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInEvents_dbo_Events_EventId">
+          <End Role="Events" Type="Self.Event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInEvents" Type="Self.UsersInEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="UsersInEvents">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsersInEvents_dbo_Users_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersInEvents" Type="Self.UsersInEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInEvents">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserEvents">
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersInGroups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Articles" EntityType="Self.Article" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UsersInEvents" EntityType="Self.UsersInEvent" />
+          <AssociationSet Name="FK_dbo_Events_dbo_Groups_GrpId" Association="Self.FK_dbo_Events_dbo_Groups_GrpId">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInEvents_dbo_Events_EventId" Association="Self.FK_dbo_UsersInEvents_dbo_Events_EventId">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="UsersInEvents" EntitySet="UsersInEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsersInEvents_dbo_Users_UserId" Association="Self.FK_dbo_UsersInEvents_dbo_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInEvents" EntitySet="UsersInEvents" />
+          </AssociationSet>
+          <AssociationSet Name="UserEvents" Association="Self.UserEvents">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInGroups" Association="Self.UsersInGroups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db0dbb5eec172a48a397eaa45500e23c07ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Articles">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.Article">
+              <MappingFragment StoreEntitySet="Articles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TimeOfEvent" ColumnName="TimeOfEvent" />
+                <ScalarProperty Name="RepeatUntil" ColumnName="RepeatUntil" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Repeat" ColumnName="Repeat" />
+                <ScalarProperty Name="Interval" ColumnName="Interval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="StartOfPaymentPeriod" ColumnName="StartOfPaymentPeriod" />
+                <ScalarProperty Name="EndOfPaymentPeriod" ColumnName="EndOfPaymentPeriod" />
+                <ScalarProperty Name="NumberOfUsersInGroup" ColumnName="NumberOfUsersInGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="RegistrationTime" ColumnName="RegistrationTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersInEvents">
+            <EntityTypeMapping TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.UsersInEvent">
+              <MappingFragment StoreEntitySet="UsersInEvents">
+                <ScalarProperty Name="UsersInEventId" ColumnName="UsersInEventId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserEvents" TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.UserEvents" StoreEntitySet="UserEvents">
+            <EndProperty Name="Events">
+              <ScalarProperty Name="EventId" ColumnName="Event_EventId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="User_UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UsersInGroups" TypeName="db0dbb5eec172a48a397eaa45500e23c07Model.UsersInGroups" StoreEntitySet="UsersInGroups">
+            <EndProperty Name="Groups">
+              <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

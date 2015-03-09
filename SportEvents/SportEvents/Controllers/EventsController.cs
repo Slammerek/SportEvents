@@ -76,6 +76,7 @@ namespace SportEvents.Controllers
         public ActionResult Create([Bind(Include = "Id,Name,TimeOfEvent,RepeatUntil,GroupId,Place,Description,Price,Repeat,Interval,CreatorId")] Event @event)
         {
             User user = (User)Session["UserSession"];
+            Event ev;
 
             if (ModelState.IsValid)
             {
@@ -84,12 +85,28 @@ namespace SportEvents.Controllers
                 {
                     if (@event.Repeat != 0) 
                     {
-                      //  double differenceInWeeks = ((@event.RepeatUntil - @event.TimeOfEvent).TotalDays/7);
-                        // TODO: ukládat do databáze i RepeatUntil a interval
-                        for (DateTime dT = @event.TimeOfEvent ; dT <= @event.RepeatUntil; dT = dT.AddDays(7*@event.Interval)) {
-                            db.Events.Add(@event);
+                        for (DateTime dT = @event.TimeOfEvent ; dT <= @event.RepeatUntil; dT = dT.AddDays(7 * @event.Interval))
+                        {
+                            
+                            ev = new Event();
+                            ev = @event;
+                            ev.TimeOfEvent = dT;
+
+                            ev.Users = db.AllUsersInGroup(@event.GroupId);
+                            
+                            foreach (User u in ev.Users)
+                            {
+                                db.UsersInEvents.Add(new UsersInEvent()
+                                {
+                                    State = State.NotDecided,
+                                    UserId = u.UserId,
+                                    EventId = ev.EventId
+                                });
+                            }
+                            
+
+                            db.Events.Add(ev);    
                             db.SaveChanges();
-                            @event.TimeOfEvent = @event.TimeOfEvent.AddDays(7*@event.Interval); 
                         }
                             
                     }
