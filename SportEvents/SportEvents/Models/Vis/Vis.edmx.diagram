@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.Article" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.Event" Width="1.5" PointX="5.375" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.Group" Width="1.5" PointX="1" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.Group" Width="2.25" PointX="1" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="db0dbb5eec172a48a397eaa45500e23c07Model.User" Width="1.5" PointX="9.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="db0dbb5eec172a48a397eaa45500e23c07Model.FK_dbo_Events_dbo_Groups_GrpId" ManuallyRouted="false" />
         <AssociationConnector Association="db0dbb5eec172a48a397eaa45500e23c07Model.EventsUsers" ManuallyRouted="false" />

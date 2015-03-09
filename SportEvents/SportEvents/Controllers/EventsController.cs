@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SportEvents.Models;
+using SportEvents.Models.Application;
 
 namespace SportEvents.Controllers
 {
@@ -14,6 +15,7 @@ namespace SportEvents.Controllers
     public class EventsController : Controller
     {
         private DataContext db = new DataContext();
+        private EventsBO evBo = new EventsBO();
 
         // GET: Events
         public ActionResult Index(string sortOrder)
@@ -58,7 +60,11 @@ namespace SportEvents.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
+            var user = (User) Session["UserSession"];
+
+            var groups = evBo.GetGroupsWhereUserIsAdmin(user);
+
+            ViewBag.GroupId = new SelectList(groups, "GroupId", "Name");
             return View();
         }
 
@@ -69,9 +75,10 @@ namespace SportEvents.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,TimeOfEvent,RepeatUntil,GroupId,Place,Description,Price,Repeat,Interval,CreatorId")] Event @event)
         {
+            User user = (User)Session["UserSession"];
+
             if (ModelState.IsValid)
             {
-                User user = (User)Session["UserSession"];
                 @event.CreatorId = user.UserId;
                 if (db.IsUserCreatorOfGroup(user.UserId, @event.GroupId))
                 {
@@ -104,8 +111,10 @@ namespace SportEvents.Controllers
                 
             }
 
-            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
-            ViewBag.Error = "Nejste zakladatelem tehle skupiny";
+
+            var groups = evBo.GetGroupsWhereUserIsAdmin(user);
+
+            ViewBag.GroupId = new SelectList(groups, "GroupId", "Name");
             return View(@event);
         }
 

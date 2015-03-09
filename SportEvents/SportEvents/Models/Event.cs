@@ -29,8 +29,8 @@ namespace SportEvents.Models
 
         public string Description { get; set; }
 
-        [RegularExpression("^[0-9][0-9]*$",
-            ErrorMessage = "Cena události musí být kladné číslo.")]
+        [RegularExpression("^[0-9][0-9]*$", ErrorMessage = "Cena události musí být kladné číslo.")]
+        [DataType(DataType.Currency)]
         public int Price { get; set; }
 
         public RepeatEvent Repeat { get; set; } // opakovana udalost? ano x ne
