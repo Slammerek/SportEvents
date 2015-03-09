@@ -161,9 +161,6 @@
     <Compile Include="Models\Vis\User.cs">
       <DependentUpon>Vis.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Vis\UsersInGroups1.cs">
-      <DependentUpon>Vis.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Vis\Vis.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
