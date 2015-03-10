@@ -85,15 +85,23 @@ namespace SportEvents.Controllers
                 {
                     if (@event.Repeat != 0) 
                     {
-                        for (DateTime dT = @event.TimeOfEvent ; dT <= @event.RepeatUntil; dT = dT.AddDays(7 * @event.Interval))
+                        // TODO: Spatne to chape datum. 10.03.2015 bere jako mm/dd/yyyy[en-US] namisto dd/mm/yyyy[cs-CZ] 
+                        for (DateTime dT = @event.TimeOfEvent ; dT <= @event.RepeatUntil; dT = dT.AddDays(7))
                         {
-                            
+                            // novy event
                             ev = new Event();
+
+                            // zkopcim vsechny udaje ze stareho eventu do noveho
                             ev = @event;
+
+                            // zmenim cas eventu podle toho, ve kterem tydnu zrovna v iteraci sem
                             ev.TimeOfEvent = dT;
 
+                            // nactu z db vsecky uzivatele, kteri patri do skupiny tohodle eventu a vsechny je vlozim do noveho eventu
                             ev.Users = db.AllUsersInGroup(@event.GroupId);
                             
+                            // vsechny ulozene uzivatele v eventu projedu a nastavim jim stav na narozhodnut
+                            // tady v podstate delam ulozeni do join table
                             foreach (User u in ev.Users)
                             {
                                 db.UsersInEvents.Add(new UsersInEvent()
@@ -104,7 +112,7 @@ namespace SportEvents.Controllers
                                 });
                             }
                             
-
+                            // konecne pridam do db novej event a ulozim zmeny
                             db.Events.Add(ev);    
                             db.SaveChanges();
                         }
